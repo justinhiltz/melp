@@ -1,0 +1,22 @@
+{
+  "type": "module",
+  "private": true,
+  "workspaces": [
+    "server",
+    "client",
+    "e2e"
+  ],
+  "scripts": {
+    "build:client": "yarn workspace melp-client build",
+    "dev": "yarn workspace melp-server dev",
+    "dev:debug": "yarn workspace melp-server dev:debug",
+    "heroku-postbuild": "yarn workspace melp-client build",
+    "start": "yarn workspace melp-server start",
+    "dev:cypress": "yarn workspace melp-server dev:e2e",
+    "e2e:open": "yarn workspace melp-e2e e2e:open",
+    "e2e:run": "yarn workspace melp-e2e e2e:run"
+  },
+  "engines": {
+    "node": "^16.18"
+  }
+}

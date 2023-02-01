@@ -6,6 +6,7 @@ import getCurrentUser from "../services/getCurrentUser";
 import "../assets/scss/main.scss";
 import RegistrationForm from "./registration/RegistrationForm";
 import SignInForm from "./authentication/SignInForm";
+import AuthenticatedRoute from "./authentication/AuthenticatedRoute";
 import TopBar from "./layout/TopBar";
 import MemeList from "./MemeList.js";
 import MemeShowPage from "./MemeShowPage.js";
@@ -30,7 +31,6 @@ const App = (props) => {
       <TopBar user={currentUser} />
       <Switch>
         <Route exact path="/">
-          <h2>Hello from react</h2>
           <MemeList />
         </Route>
         <Route exact path="/users/new" component={RegistrationForm} />

@@ -8,7 +8,7 @@ import RegistrationForm from "./registration/RegistrationForm";
 import SignInForm from "./authentication/SignInForm";
 import TopBar from "./layout/TopBar";
 import MemeList from "./MemeList.js";
-import memeShowPage from "./memeShowPage.js";
+import MemeShowPage from "./MemeShowPage.js";
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -35,7 +35,7 @@ const App = (props) => {
         </Route>
         <Route exact path="/users/new" component={RegistrationForm} />
         <Route exact path="/user-sessions/new" component={SignInForm} />
-        <Route exact path="/memes/:id" component={memeShowPage}/>
+        <Route exact path="/memes/:id" component={MemeShowPage}/>
       </Switch>
     </Router>
   );

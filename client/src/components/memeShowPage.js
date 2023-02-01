@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react"
 
-const memeShowPage = (props) => {
+const MemeShowPage = (props) => {
     const [meme, setMeme] = useState({})
 
     const getMeme = async() => {
@@ -22,11 +22,11 @@ const memeShowPage = (props) => {
     }, [])
 
     return(
-        <div>
+        <>
             <h1>{meme.title}</h1>
             <img src={meme.memeUrl}/>
-        </div>
+        </>
     )
 }
 
-export default memeShowPage
+export default MemeShowPage

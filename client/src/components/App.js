@@ -10,9 +10,10 @@ import AuthenticatedRoute from "./authentication/AuthenticatedRoute";
 import TopBar from "./layout/TopBar";
 import MemeList from "./MemeList.js";
 import MemeShowPage from "./MemeShowPage.js";
+import NewMemeForm from "./NewMemeForm.js";
 
 const App = (props) => {
-  const [currentUser, setCurrentUser] = useState(undefined);
+  const [currentUser, setCurrentUser] = useState({});
   const fetchCurrentUser = async () => {
     try {
       const user = await getCurrentUser();
@@ -35,7 +36,10 @@ const App = (props) => {
         </Route>
         <Route exact path="/users/new" component={RegistrationForm} />
         <Route exact path="/user-sessions/new" component={SignInForm} />
-        <Route exact path="/memes/:id" component={MemeShowPage}/>
+        <Route exact path="/memes/new">
+          <NewMemeForm userId={currentUser.id} />
+        </Route>
+        <Route exact path="/memes/:id" component={MemeShowPage} />
       </Switch>
     </Router>
   );

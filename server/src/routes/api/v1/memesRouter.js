@@ -29,7 +29,6 @@ memesRouter.get("/:id", async (req, res) => {
 memesRouter.post("/", async (req, res) => {
   const formInput = cleanUserInput(req.body);
   const { title, memeUrl } = formInput;
-  console.log(req.user);
   const userId = req.user.id;
   try {
     const meme = await Meme.query().insertAndFetch({ title, memeUrl, userId });

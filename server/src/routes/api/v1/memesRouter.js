@@ -11,4 +11,14 @@ memesRouter.get("/", async (req, res) => {
   }
 });
 
+memesRouter.get("/:id", async (req, res) => {
+  try {
+      const memeId = req.params.id
+      const meme = await Meme.query().findById(memeId)
+      return res.status(200).json({ meme: meme })
+  } catch (error) {
+      return res.status(500).json({ errors: error })
+  }
+})
+
 export default memesRouter;

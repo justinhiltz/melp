@@ -15,6 +15,9 @@ const TopBar = ({ user }) => {
   ];
 
   const authenticatedListItems = [
+    <li key="add-meme">
+      <Link to="/memes/new">Add New Meme</Link>
+    </li>,
     <li key="sign-out">
       <SignOutButton />
     </li>,

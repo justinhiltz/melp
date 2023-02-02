@@ -11,25 +11,25 @@ class ReviewSeeder {
         const reviewsData = [
             {
                 rating: 5,
-                review: "This meme is hilarious!",
+                content: "This meme is hilarious!",
                 userId: firstMeme.userId,
                 memeId: firstMeme.id
             },
             {
                 rating: 4,
-                review: "My sentiments exactly lol",
+                content: "My sentiments exactly lol",
                 userId: secondMeme.userId,
                 memeId: secondMeme.id
             },
             {
                 rating: 3,
-                review: "ROFL",
+                content: "ROFL",
                 userId: secondMeme.userId,
                 memeId: secondMeme.id
             },
             {
                 rating: 5,
-                review: "I love chonky Bugs Bunny",
+                content: "I love chonky Bugs Bunny",
                 userId: thirdMeme.userId,
                 memeId: thirdMeme.id
             }

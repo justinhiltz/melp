@@ -9,7 +9,7 @@ class Review extends Model {
         const { User, Meme } = require("./index.js")
 
         return {
-            users: {
+            user: {
                 relation: Model.BelongsToOneRelation,
                 modelClass: User,
                 join: {
@@ -17,7 +17,7 @@ class Review extends Model {
                     to: "users.id"
                 }
             },
-            memes: {
+            meme: {
                 relation: Model.BelongsToOneRelation,
                 modelClass: Meme,
                 join: {

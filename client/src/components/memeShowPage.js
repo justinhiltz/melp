@@ -19,7 +19,6 @@ const MemeShowPage = (props) => {
             }
             const parsedResponse = await response.json()
             setMeme(parsedResponse.meme)
-            console.log(parsedResponse)
         } catch (error) {
             console.log(`Error in fetch: ${error.message}`)
         }
@@ -37,9 +36,7 @@ const MemeShowPage = (props) => {
         <>
             <h1>{meme.title}</h1>
             <img src={meme.memeUrl}/>
-            <div>
-                <ul>{reviewTileComponents}</ul>                
-            </div>
+            <ul>{reviewTileComponents}</ul>
         </>
     )
 }

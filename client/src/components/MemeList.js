@@ -28,12 +28,11 @@ const MemesListPage = (props) => {
   });
   return (
     <div className="grid-container">
-      <div className="grid-x grid-margin-x align-center callout primary">
-        <div className="cell grid-x grid-margin-x small-11 align-center callout">
-          <div className="cell small-11 grid-x grid-margin-x align-center callout secondary">
-            {memeTileComponents}
-          </div>
+      <div className="grid-x grid-margin-x grid-margin-y align-center">
+        <div className="cell">
+          <h1 className="text-center">Melp!</h1>
         </div>
+        {memeTileComponents}
       </div>
     </div>
   );

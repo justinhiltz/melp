@@ -3,11 +3,15 @@ import { Link } from "react-router-dom";
 
 const MemeTile = ({ id, title, memeUrl }) => {
   return (
-    <div>
+    <div className="cell medium-4 small-6">
       <h3>
         <Link to={`/memes/${id}`}>{title}</Link>
       </h3>
-      <img src={memeUrl} />
+      <div className="align-center">
+        <Link to={`/memes/${id}`}>
+          <img src={memeUrl} />
+        </Link>
+      </div>
     </div>
   );
 };

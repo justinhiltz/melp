@@ -69,24 +69,33 @@ const NewMemeForm = (props) => {
   }
 
   return (
-    <div className="callout">
-      <h1>Add a Meme</h1>
-      <ErrorList errors={errors} />
-      <form onSubmit={handleSubmit}>
-        <label>
-          Title:
-          <input type="text" name="title" onChange={handleInputChange} value={newMeme.title} />
-        </label>
+    <div className="grid-container">
+      <div className="grid-x grid-margin-x align-center">
+        <div className="cell medium-6">
+          <h1>Add a Meme</h1>
+          <ErrorList errors={errors} />
+          <form onSubmit={handleSubmit}>
+            <label>
+              Title:
+              <input type="text" name="title" onChange={handleInputChange} value={newMeme.title} />
+            </label>
 
-        <label>
-          Meme URL:
-          <input type="text" name="memeUrl" onChange={handleInputChange} value={newMeme.memeUrl} />
-        </label>
+            <label>
+              Meme URL:
+              <input
+                type="text"
+                name="memeUrl"
+                onChange={handleInputChange}
+                value={newMeme.memeUrl}
+              />
+            </label>
 
-        <div className="button-group">
-          <input className="button" type="submit" value="Submit" />
+            <div className="button-group">
+              <input className="button" type="submit" value="Submit" />
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

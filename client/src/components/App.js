@@ -36,9 +36,7 @@ const App = (props) => {
         </Route>
         <Route exact path="/users/new" component={RegistrationForm} />
         <Route exact path="/user-sessions/new" component={SignInForm} />
-        <Route exact path="/memes/new">
-          <NewMemeForm userId={currentUser.id} />
-        </Route>
+        <Route exact path="/memes/new" component={NewMemeForm} />
         <Route exact path="/memes/:id" component={MemeShowPage} />
       </Switch>
     </Router>

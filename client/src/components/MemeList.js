@@ -19,6 +19,7 @@ const MemesListPage = (props) => {
       console.error(`Error in fetch: ${err.message}`);
     }
   };
+  
   useEffect(() => {
     getMemes();
   }, []);
@@ -26,6 +27,7 @@ const MemesListPage = (props) => {
   const memeTileComponents = memes.map((memeObject) => {
     return <MemeTile key={memeObject.id} {...memeObject} />;
   });
+
   return (
     <div className="grid-container">
       <div className="grid-x grid-margin-x grid-margin-y align-center">

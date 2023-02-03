@@ -3,6 +3,8 @@ import objection from "objection";
 import { Meme } from "../../../models/index.js";
 const { ValidationError } = objection;
 
+import ReviewSerializer from "../../../serializers/ReviewSerializer.js";
+
 import cleanUserInput from "../../../services/cleanUserInput.js";
 
 const memesRouter = new express.Router();
@@ -17,9 +19,15 @@ memesRouter.get("/", async (req, res) => {
 });
 
 memesRouter.get("/:id", async (req, res) => {
+  const { id } = req.params
   try {
-    const memeId = req.params.id;
-    const meme = await Meme.query().findById(memeId);
+    const meme = await Meme.query().findById(id);
+
+    const reviews = await meme.$relatedQuery("reviews");
+    const serializedReviews = reviews.map(review => ReviewSerializer.getSummary(review))
+
+    meme.reviews = serializedReviews;
+
     return res.status(200).json({ meme: meme });
   } catch (error) {
     return res.status(500).json({ errors: error });

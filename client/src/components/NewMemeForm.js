@@ -44,15 +44,15 @@ const NewMemeForm = (props) => {
     }
   };
 
-  const handleInputChange = (meme) => {
+  const handleInputChange = (event) => {
     setNewMeme({
       ...newMeme,
-      [meme.currentTarget.name]: meme.currentTarget.value,
+      [event.currentTarget.name]: event.currentTarget.value,
     });
   };
 
-  const handleSubmit = (meme) => {
-    meme.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
     addNewMeme(newMeme);
     clearForm();
   };

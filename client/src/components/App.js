@@ -11,6 +11,7 @@ import TopBar from "./layout/TopBar";
 import MemeList from "./MemeList.js";
 import MemeShowPage from "./MemeShowPage.js";
 import NewMemeForm from "./NewMemeForm.js";
+import NewReviewForm from "./NewReviewForm";
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState({});
@@ -37,7 +38,11 @@ const App = (props) => {
         <Route exact path="/users/new" component={RegistrationForm} />
         <Route exact path="/user-sessions/new" component={SignInForm} />
         <Route exact path="/memes/new" component={NewMemeForm}/>
-        <Route exact path="/memes/:id" component={MemeShowPage} />
+        <Route 
+          exact 
+          path="/memes/:id"
+          render={(props) => <MemeShowPage {...props} user={currentUser}/>}
+        />
       </Switch>
     </Router>
   );

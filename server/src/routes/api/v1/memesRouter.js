@@ -7,6 +7,8 @@ import ReviewSerializer from "../../../serializers/ReviewSerializer.js";
 
 import cleanUserInput from "../../../services/cleanUserInput.js";
 
+import memesReviewsRouter from "./memesReviewsRouter.js"
+
 const memesRouter = new express.Router();
 
 memesRouter.get("/", async (req, res) => {
@@ -49,5 +51,7 @@ memesRouter.post("/", async (req, res) => {
     return res.status(500).json({ errors: error });
   }
 });
+
+memesRouter.use("/:memeId/reviews", memesReviewsRouter)
 
 export default memesRouter;

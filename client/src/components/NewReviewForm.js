@@ -52,10 +52,12 @@ const NewReviewForm = ({ postReview }) => {
             <label>
               Review:
               <textarea 
-                name="review" 
+                name="content" 
                 rows={4}
                 cols={40}
-                onChange={handleContentChange}/>
+                onChange={handleContentChange}
+                value={newReview.content}
+              />
             </label>
 
             <div className="button-group">

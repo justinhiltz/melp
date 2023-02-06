@@ -25,4 +25,14 @@ memesReviewsRouter.post("/", async (req, res) => {
     }
 })
 
+memesReviewsRouter.delete("/:id", async (req, res) => {
+    try {
+        const reviewId = req.params.id
+        await Review.query().deleteById(reviewId)
+        res.status(204).json({message: "Review successfully deleted"})
+    } catch (error) {
+        return res.status(500).json({errors: error})
+    }
+})
+
 export default memesReviewsRouter

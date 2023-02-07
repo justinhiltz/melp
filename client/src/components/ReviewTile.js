@@ -1,21 +1,86 @@
-import React from "react";
+import React, { useState } from "react";
+import EditReviewForm from "./EditReviewForm";
+import ErrorList from "./layout/ErrorList";
 
-const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, userName }) => {
+const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId }) => {
+  const [editForm, setEditForm] = useState(false);
+  const [errors, setErrors] = useState([]);
+
+  const handleEditButton = (event) => {
+    event.preventDefault();
+    if (editForm) {
+      setEditForm(false);
+    } else {
+      setEditForm(
+        <EditReviewForm
+          rating={rating}
+          content={content}
+          id={id}
+          setEditForm={setEditForm}
+          editReview={editReview}
+        />
+      );
+    }
+  };
 
   const handleDeleteButton = (event) => {
-    event.preventDefault()
-    onDelete(id)
+    event.preventDefault();
+    onDelete(id);
+  };
+
+  const editReview = async (reviewId, reviewData) => {
+    try {
+      const response = await fetch(`/api/v1/memes/${memeId}/reviews/${reviewId}`, {
+        method: "PATCH",
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+        body: JSON.stringify(reviewData),
+      });
+      if (!response.ok) {
+        if (response.status === 422) {
+          const body = await response.json();
+          const newErrors = translateServerErrors(body.errors);
+          return setErrors(newErrors);
+        } else {
+          throw new Error(`${response.status} (${response.statusText})`);
+        }
+      } else {
+        const body = await response.json();
+        setErrors([]);
+        // chatGPT this is where you need to help us replace code:
+        // look through the current state of all reviews (from source of truth)
+        // find the review in the state array that was just updated - comparing id values
+        // replace that review object in the state array with the NEWLY
+      }
+    } catch (error) {
+      console.error(`Error in fetch: ${error.message}`);
+    }
+  };
+
+  let editButton;
+  if (currentUser && currentUser.id === userId) {
+    editButton = (
+      <input type="button" className="button" value="Edit Review" onClick={handleEditButton} />
+    );
   }
 
-  let deleteButton
+  let deleteButton;
   if (currentUser && currentUser.id === userId) {
-    deleteButton = <input type="button" className="button" value="Delete Review" onClick={handleDeleteButton}/>
+    deleteButton = (
+      <input type="button" className="button" value="Delete Review" onClick={handleDeleteButton} />
+    );
   }
 
   return (
     <>
-    <li>{rating}/5 stars - {content}</li>
-    {deleteButton}
+      <li>
+        {rating}/5 stars - {content}
+      </li>
+      {editButton}
+      {deleteButton}
+      <ErrorList errors={errors} />
+      {editForm}
     </>
   );
 };

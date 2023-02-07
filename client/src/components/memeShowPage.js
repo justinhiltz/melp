@@ -7,10 +7,10 @@ import NewReviewForm from "./NewReviewForm";
 
 const MemeShowPage = (props) => {
   const [meme, setMeme] = useState({ reviews: [] });
-  const [errors, setErrors] = useState([])
+  const [errors, setErrors] = useState([]);
 
   const memeId = props.match.params.id;
-  const currentUser = props.currentUser
+  const currentUser = props.currentUser;
 
   const getMeme = async () => {
     try {
@@ -34,63 +34,64 @@ const MemeShowPage = (props) => {
       const response = await fetch(`/api/v1/memes/${memeId}/reviews`, {
         method: "POST",
         headers: new Headers({
-            "Content-Type": "application/json"
+          "Content-Type": "application/json",
         }),
-        body: JSON.stringify(newReviewData)
-      })
-      if(!response.ok){
-        if(response.status === 422){
-          const body = await response.json()
-          const newErrors = translateServerErrors(body.errors)
-          return setErrors(newErrors)
+        body: JSON.stringify(newReviewData),
+      });
+      if (!response.ok) {
+        if (response.status === 422) {
+          const body = await response.json();
+          const newErrors = translateServerErrors(body.errors);
+          return setErrors(newErrors);
         } else {
-          throw new Error(`${response.status} (${response.statusText})`)
+          throw new Error(`${response.status} (${response.statusText})`);
         }
       } else {
-        const body = await response.json()
-        const updatedReviews = meme.reviews.concat(body.review)
-        setErrors([])
-        setMeme({ ...meme, reviews: updatedReviews })
+        const body = await response.json();
+        const updatedReviews = meme.reviews.concat(body.review);
+        setErrors([]);
+        setMeme({ ...meme, reviews: updatedReviews });
       }
     } catch (error) {
-      console.error(`Error in fetch: ${error.message}`)
+      console.error(`Error in fetch: ${error.message}`);
     }
-  }
+  };
 
   const deleteReview = async (reviewId) => {
     try {
       const response = await fetch(`/api/v1/memes/${memeId}/reviews/${reviewId}`, {
         method: "DELETE",
         headers: {
-          "Content-Type": "application/json"
-        }
-      })
+          "Content-Type": "application/json",
+        },
+      });
       if (!response.ok) {
-        throw new Error(`${response.status} (${response.statusText})`)
+        throw new Error(`${response.status} (${response.statusText})`);
       }
       setMeme({
         ...meme,
-        reviews: meme.reviews.filter(review => review.id !== reviewId)
-      })
+        reviews: meme.reviews.filter((review) => review.id !== reviewId),
+      });
     } catch (err) {
-      console.error(`Error in fetch: ${err.message }`)
+      console.error(`Error in fetch: ${err.message}`);
     }
-  }
+  };
 
   const reviewTileComponents = meme.reviews.map((reviewObject) => {
     return (
       <ReviewTile
-      key={reviewObject.id}
-      {...reviewObject}
-      onDelete={deleteReview}
-      currentUser={currentUser}
+        key={reviewObject.id}
+        {...reviewObject}
+        // onEdit={editReview}
+        onDelete={deleteReview}
+        currentUser={currentUser}
       />
-      )
-    })
-  
-  let form
-  if(currentUser){
-    form = <NewReviewForm postReview={postReview} />
+    );
+  });
+
+  let form;
+  if (currentUser) {
+    form = <NewReviewForm postReview={postReview} />;
   }
 
   return (

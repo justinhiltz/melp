@@ -41,7 +41,7 @@ const App = (props) => {
         <Route 
           exact 
           path="/memes/:id"
-          render={(props) => <MemeShowPage {...props} user={currentUser}/>}
+          render={(props) => <MemeShowPage {...props} currentUser={currentUser}/>}
         />
       </Switch>
     </Router>

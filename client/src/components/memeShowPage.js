@@ -8,6 +8,7 @@ import NewReviewForm from "./NewReviewForm";
 const MemeShowPage = (props) => {
   const [meme, setMeme] = useState({ reviews: [] });
   const [errors, setErrors] = useState([]);
+  
 
   const memeId = props.match.params.id;
   const currentUser = props.currentUser;
@@ -28,7 +29,7 @@ const MemeShowPage = (props) => {
   useEffect(() => {
     getMeme();
   }, []);
-
+  console.log(meme.reviews)
   const postReview = async (newReviewData) => {
     try {
       const response = await fetch(`/api/v1/memes/${memeId}/reviews`, {
@@ -82,9 +83,10 @@ const MemeShowPage = (props) => {
       <ReviewTile
         key={reviewObject.id}
         {...reviewObject}
-        // onEdit={editReview}
         onDelete={deleteReview}
         currentUser={currentUser}
+        setMeme={setMeme}
+        meme={meme}
       />
     );
   });

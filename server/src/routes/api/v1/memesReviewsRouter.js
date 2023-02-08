@@ -3,6 +3,7 @@ import objection from "objection";
 const { ValidationError } = objection;
 import cleanUserInput from "../../../services/cleanUserInput.js";
 import { Review } from "../../../models/index.js";
+import ReviewSerializer from "../../../serializers/ReviewSerializer.js"
 
 const memesReviewsRouter = new express.Router({ mergeParams: true });
 
@@ -43,7 +44,8 @@ memesReviewsRouter.patch("/:id", async (req, res) => {
 
   try {
     const editedReview = await Review.query().patchAndFetchById(reviewId, { rating, content });
-    return res.status(200).json({ review: editedReview });
+    const serializedEditedReview = ReviewSerializer.getSummary(editedReview)
+    return res.status(200).json({ review: serializedEditedReview });
   } catch (error) {
     console.log(error);
     if (error instanceof ValidationError) {

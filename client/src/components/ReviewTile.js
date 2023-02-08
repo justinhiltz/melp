@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import EditReviewForm from "./EditReviewForm";
 import ErrorList from "./layout/ErrorList";
 
-const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId }) => {
+const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId, setMeme, meme }) => {
   const [editForm, setEditForm] = useState(false);
   const [errors, setErrors] = useState([]);
 
@@ -48,10 +48,14 @@ const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId
       } else {
         const body = await response.json();
         setErrors([]);
-        // chatGPT this is where you need to help us replace code:
-        // look through the current state of all reviews (from source of truth)
-        // find the review in the state array that was just updated - comparing id values
-        // replace that review object in the state array with the NEWLY
+        const editedReviews = meme.reviews
+        const editedId = editedReviews.findIndex(review => review.id === body.review.id)
+        editedReviews[editedId] = body.review
+        setMeme({
+          ...meme,
+          reviews: editedReviews
+        })
+        setEditForm(false)
       }
     } catch (error) {
       console.error(`Error in fetch: ${error.message}`);

@@ -37,35 +37,15 @@ memesRouter.get("/:id", async (req, res) => {
   }
 });
 
-// memesRouter.post("/", async (req, res) => {
-//   const formInput = cleanUserInput(req.body);
-//   const { title, memeUrl } = formInput;
-//   const userId = req.user.id;
-//   try {
-//     const meme = await Meme.query().insertAndFetch({ title, memeUrl, userId });
-//     return res.status(201).json({ meme: meme });
-//   } catch (error) {
-//     console.log(error);
-//     if (error instanceof ValidationError) {
-//       return res.status(422).json({ errors: error.data });
-//     }
-//     return res.status(500).json({ errors: error });
-//   }
-// });
-
 memesRouter.post("/", uploadImage.single("image"), async (req, res) => {
   try {
-    console.log("in the router");
-
     const { body } = req;
     const data = {
       ...body,
       image: req.file.location,
       userId: req.user.id,
     };
-    console.log(data);
-    console.log(req.file.location);
-
+    
     const meme = await Meme.query().insertAndFetch(data);
     return res.status(201).json({ meme });
   } catch (error) {

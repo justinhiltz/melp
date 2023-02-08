@@ -7,7 +7,7 @@
  */
 exports.up = async (knex) => {
   return knex.schema.table("memes", (table) => {
-    table.string("image");
+    table.string("image").notNullable();
   });
 };
 

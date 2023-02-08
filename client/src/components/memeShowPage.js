@@ -70,7 +70,7 @@ const MemeShowPage = (props) => {
       <div className="grid-x grid-margin-x align-center">
         <div className="cell medium-6">
           <h1>{meme.title}</h1>
-          <img src={meme.memeUrl} />
+          <img src={meme.image} />
           <ul>{reviewTileComponents}</ul>
           <ErrorList errors={errors} />
           {form}

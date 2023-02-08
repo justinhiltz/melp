@@ -1,13 +1,14 @@
 import express from "express";
 import objection from "objection";
 import { Meme } from "../../../models/index.js";
+import uploadImage from "../../../services/uploadImage.js";
 const { ValidationError } = objection;
 
 import ReviewSerializer from "../../../serializers/ReviewSerializer.js";
 
 import cleanUserInput from "../../../services/cleanUserInput.js";
 
-import memesReviewsRouter from "./memesReviewsRouter.js"
+import memesReviewsRouter from "./memesReviewsRouter.js";
 
 const memesRouter = new express.Router();
 
@@ -21,12 +22,12 @@ memesRouter.get("/", async (req, res) => {
 });
 
 memesRouter.get("/:id", async (req, res) => {
-  const { id } = req.params
+  const { id } = req.params;
   try {
     const meme = await Meme.query().findById(id);
 
     const reviews = await meme.$relatedQuery("reviews");
-    const serializedReviews = reviews.map(review => ReviewSerializer.getSummary(review))
+    const serializedReviews = reviews.map((review) => ReviewSerializer.getSummary(review));
 
     meme.reviews = serializedReviews;
 
@@ -36,13 +37,37 @@ memesRouter.get("/:id", async (req, res) => {
   }
 });
 
-memesRouter.post("/", async (req, res) => {
-  const formInput = cleanUserInput(req.body);
-  const { title, memeUrl } = formInput;
-  const userId = req.user.id;
+// memesRouter.post("/", async (req, res) => {
+//   const formInput = cleanUserInput(req.body);
+//   const { title, memeUrl } = formInput;
+//   const userId = req.user.id;
+//   try {
+//     const meme = await Meme.query().insertAndFetch({ title, memeUrl, userId });
+//     return res.status(201).json({ meme: meme });
+//   } catch (error) {
+//     console.log(error);
+//     if (error instanceof ValidationError) {
+//       return res.status(422).json({ errors: error.data });
+//     }
+//     return res.status(500).json({ errors: error });
+//   }
+// });
+
+memesRouter.post("/", uploadImage.single("image"), async (req, res) => {
   try {
-    const meme = await Meme.query().insertAndFetch({ title, memeUrl, userId });
-    return res.status(201).json({ meme: meme });
+    console.log("in the router");
+
+    const { body } = req;
+    const data = {
+      ...body,
+      image: req.file.location,
+      userId: req.user.id,
+    };
+    console.log(data);
+    console.log(req.file.location);
+
+    const meme = await Meme.query().insertAndFetch(data);
+    return res.status(201).json({ meme });
   } catch (error) {
     console.log(error);
     if (error instanceof ValidationError) {
@@ -52,6 +77,6 @@ memesRouter.post("/", async (req, res) => {
   }
 });
 
-memesRouter.use("/:memeId/reviews", memesReviewsRouter)
+memesRouter.use("/:memeId/reviews", memesReviewsRouter);
 
 export default memesRouter;

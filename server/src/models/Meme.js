@@ -29,10 +29,10 @@ class Meme extends Model {
   static get jsonSchema() {
     return {
       type: "object",
-      required: ["title", "memeUrl"],
+      required: ["title", "image"],
       properties: {
-        title: { type: "string", minLength: 1 },
-        memeUrl: { type: "string", minLength: 1 },
+        title: { type: "string" },
+        image: { type: "string" },
         userId: { type: ["string", "integer"] },
       },
     };

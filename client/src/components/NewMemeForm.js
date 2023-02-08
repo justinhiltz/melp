@@ -81,8 +81,6 @@ const NewMemeForm = (props) => {
         }
       }
       const body = await response.json();
-      setNewMeme({ ...newMeme, image: body.meme });
-      setUploadedImage({ preview: "" });
       setShouldRedirect({
         status: true,
         id: body.meme.id,

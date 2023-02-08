@@ -17,7 +17,7 @@ const NewMemeForm = (props) => {
   const [errors, setErrors] = useState({});
   const [shouldRedirect, setShouldRedirect] = useState({
     status: false,
-    id: null
+    id: null,
   });
 
   const handleInputChange = (event) => {
@@ -39,15 +39,24 @@ const NewMemeForm = (props) => {
     });
   };
 
-  const clearForm = () => {
-    setNewMeme({
-      title: "",
-      image: {},
-    });
-  };
-
   const addMeme = async (event) => {
     event.preventDefault();
+
+    let submitErrors = {};
+    if (newMeme.title.trim() === "") {
+      console.log(newMeme.title);
+      submitErrors = {
+        ...submitErrors,
+        title: "Title can't be blank",
+      };
+    }
+    if (newMeme.image === {}) {
+      submitErrors = {
+        ...submitErrors,
+        image: "Image can't be blank",
+      };
+    }
+
     const newMemeBody = new FormData();
     newMemeBody.append("title", newMeme.title);
     newMemeBody.append("image", newMeme.image);
@@ -62,29 +71,29 @@ const NewMemeForm = (props) => {
       });
       if (!response.ok) {
         if (response.status === 422) {
-          const body = await response.json()
-          const newErrors = translateServerErrors(body.errors)
-          return setErrors(newErrors)
+          const body = await response.json();
+          const newErrors = translateServerErrors(body.errors);
+          return setErrors(newErrors);
         } else {
-          const errorMessage = `${response.status} (${response.statusText})`
-          const error = new Error(errorMessage)
-          throw error
+          const errorMessage = `${response.status} (${response.statusText})`;
+          const error = new Error(errorMessage);
+          throw error;
         }
       }
       const body = await response.json();
-      setNewMeme({...newMeme, image: body.meme});
-      setUploadedImage({preview: ""})
+      setNewMeme({ ...newMeme, image: body.meme });
+      setUploadedImage({ preview: "" });
       setShouldRedirect({
         status: true,
-        id: body.meme.id
-      })
+        id: body.meme.id,
+      });
     } catch (error) {
       console.error(`Error in addMeme Fetch: ${error.message}`);
     }
   };
-  
+
   if (shouldRedirect.status) {
-    return <Redirect to={`/memes/${shouldRedirect.id}`} />
+    return <Redirect to={`/memes/${shouldRedirect.id}`} />;
   }
 
   return (

@@ -31,7 +31,7 @@ class Meme extends Model {
       type: "object",
       required: ["title", "image"],
       properties: {
-        title: { type: "string" },
+        title: { type: "string", minLength: 1 },
         image: { type: "string" },
         userId: { type: ["string", "integer"] },
       },

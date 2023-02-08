@@ -1,26 +1,73 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
-
+import Dropzone from "react-dropzone";
 import ErrorList from "./layout/ErrorList";
 import translateServerErrors from "./../services/translateServerErrors";
 
 const NewMemeForm = (props) => {
   const [newMeme, setNewMeme] = useState({
     title: "",
-    memeUrl: "",
+    image: {},
   });
 
-  const [errors, setErrors] = useState([]);
-  const [shouldRedirect, setShouldRedirect] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState({
+    preview: "",
+  });
 
-  const addNewMeme = async () => {
+  const [errors, setErrors] = useState({});
+  const [shouldRedirect, setShouldRedirect] = useState({
+    status: false,
+    id: null,
+  });
+
+  const handleInputChange = (event) => {
+    event.preventDefault();
+    setNewMeme({
+      ...newMeme,
+      [event.currentTarget.name]: event.currentTarget.value,
+    });
+  };
+
+  const handleImageUpload = (acceptedImage) => {
+    setNewMeme({
+      ...newMeme,
+      image: acceptedImage[0],
+    });
+
+    setUploadedImage({
+      preview: URL.createObjectURL(acceptedImage[0]),
+    });
+  };
+
+  const addMeme = async (event) => {
+    event.preventDefault();
+
+    let submitErrors = {};
+    if (newMeme.title.trim() === "") {
+      console.log(newMeme.title);
+      submitErrors = {
+        ...submitErrors,
+        title: "Title can't be blank",
+      };
+    }
+    if (newMeme.image === {}) {
+      submitErrors = {
+        ...submitErrors,
+        image: "Image can't be blank",
+      };
+    }
+
+    const newMemeBody = new FormData();
+    newMemeBody.append("title", newMeme.title);
+    newMemeBody.append("image", newMeme.image);
+
     try {
       const response = await fetch("/api/v1/memes", {
         method: "POST",
-        headers: new Headers({
-          "Content-Type": "application/json",
-        }),
-        body: JSON.stringify(newMeme),
+        headers: {
+          Accept: "image/jpeg",
+        },
+        body: newMemeBody,
       });
       if (!response.ok) {
         if (response.status === 422) {
@@ -32,36 +79,15 @@ const NewMemeForm = (props) => {
           const error = new Error(errorMessage);
           throw error;
         }
-      } else {
-        const body = await response.json();
-        setShouldRedirect({
-          status: true,
-          id: body.meme.id,
-        });
       }
+      const body = await response.json();
+      setShouldRedirect({
+        status: true,
+        id: body.meme.id,
+      });
     } catch (error) {
-      console.error(`Error in fetch: ${error.message}`);
+      console.error(`Error in addMeme Fetch: ${error.message}`);
     }
-  };
-
-  const handleInputChange = (event) => {
-    setNewMeme({
-      ...newMeme,
-      [event.currentTarget.name]: event.currentTarget.value,
-    });
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    addNewMeme(newMeme);
-    clearForm();
-  };
-
-  const clearForm = () => {
-    setNewMeme({
-      title: "",
-      memeUrl: "",
-    });
   };
 
   if (shouldRedirect.status) {
@@ -74,21 +100,28 @@ const NewMemeForm = (props) => {
         <div className="cell medium-6">
           <h1>Add a Meme</h1>
           <ErrorList errors={errors} />
-          <form onSubmit={handleSubmit}>
-            <label>
-              Title:
-              <input type="text" name="title" onChange={handleInputChange} value={newMeme.title} />
-            </label>
+          <form onSubmit={addMeme}>
+            <label>Title:</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              onChange={handleInputChange}
+              value={newMeme.title}
+            />
 
-            <label>
-              Meme URL:
-              <input
-                type="text"
-                name="memeUrl"
-                onChange={handleInputChange}
-                value={newMeme.memeUrl}
-              />
-            </label>
+            <Dropzone onDrop={handleImageUpload}>
+              {({ getRootProps, getInputProps }) => (
+                <section>
+                  <div {...getRootProps({})}>
+                    <input {...getInputProps()} />
+                    <p>Upload Your Meme - drag 'n' drop or click here to upload</p>
+                  </div>
+                </section>
+              )}
+            </Dropzone>
+
+            <img src={uploadedImage.preview} />
 
             <div className="button-group">
               <input className="button" type="submit" value="Submit" />

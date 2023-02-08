@@ -29,7 +29,7 @@ const EditReviewForm = ({ editReview, rating, content, id }) => {
   };
 
   return (
-    <div>
+    <>
       <ErrorList errors={errors} />
       <form onSubmit={handleSubmit}>
         <label>
@@ -55,7 +55,7 @@ const EditReviewForm = ({ editReview, rating, content, id }) => {
         </label>
         <input type="submit" className="button" value="Submit" />
       </form>
-    </div>
+    </>
   );
 };
 

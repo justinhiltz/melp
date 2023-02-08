@@ -16,7 +16,6 @@ const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId
           rating={rating}
           content={content}
           id={id}
-          setEditForm={setEditForm}
           editReview={editReview}
         />
       );

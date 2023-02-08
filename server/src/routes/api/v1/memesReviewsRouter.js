@@ -47,7 +47,6 @@ memesReviewsRouter.patch("/:id", async (req, res) => {
     const serializedEditedReview = ReviewSerializer.getSummary(editedReview)
     return res.status(200).json({ review: serializedEditedReview });
   } catch (error) {
-    console.log(error);
     if (error instanceof ValidationError) {
       return res.status(422).json({ errors: error.data });
     }

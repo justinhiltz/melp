@@ -28,7 +28,7 @@ const MemeShowPage = (props) => {
   useEffect(() => {
     getMeme();
   }, []);
-  
+
   const postReview = async (newReviewData) => {
     try {
       const response = await fetch(`/api/v1/memes/${memeId}/reviews`, {

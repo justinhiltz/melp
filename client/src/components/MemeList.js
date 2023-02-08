@@ -19,7 +19,7 @@ const MemesListPage = (props) => {
       console.error(`Error in fetch: ${err.message}`);
     }
   };
-  
+
   useEffect(() => {
     getMemes();
   }, []);

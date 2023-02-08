@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
 import ErrorList from "./layout/ErrorList";
 
 const EditReviewForm = ({ editReview, rating, content, id }) => {

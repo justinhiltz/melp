@@ -59,7 +59,7 @@ const MemeShowPage = (props) => {
 
   const deleteReview = async (reviewId) => {
     try {
-      const response = await fetch(`/api/v1/memes/${memeId}/reviews/${reviewId}`, {
+      const response = await fetch(`/api/v1/reviews/${reviewId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

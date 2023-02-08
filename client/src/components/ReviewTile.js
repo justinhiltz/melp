@@ -22,7 +22,7 @@ const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId
 
   const editReview = async (reviewId, reviewData) => {
     try {
-      const response = await fetch(`/api/v1/memes/${memeId}/reviews/${reviewId}`, {
+      const response = await fetch(`/api/v1/reviews/${reviewId}`, {
         method: "PATCH",
         headers: new Headers({
           "Content-Type": "application/json",
@@ -68,9 +68,9 @@ const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId
     );
   }
 
-  let formRender;
+  let shouldEditForm
   if(editForm){
-    formRender = (
+    shouldEditForm = (
       <EditReviewForm
         rating={rating}
         content={content}
@@ -88,7 +88,7 @@ const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId
       {editButton}
       {deleteButton}
       <ErrorList errors={errors} />
-      {formRender}
+      {shouldEditForm}
     </>
   );
 };

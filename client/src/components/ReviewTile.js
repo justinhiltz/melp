@@ -3,15 +3,15 @@ import EditReviewForm from "./EditReviewForm";
 import ErrorList from "./layout/ErrorList";
 
 const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId, setMeme, meme }) => {
-  const [editForm, setEditForm] = useState(false);
+  const [shouldEditForm, setShouldEditForm] = useState(false);
   const [errors, setErrors] = useState([]);
 
   const handleEditButton = (event) => {
     event.preventDefault();
-    if (editForm) {
-      setEditForm(false);
+    if (shouldEditForm) {
+      setShouldEditForm(false);
     } else {
-      setEditForm(true)
+      setShouldEditForm(true)
     }
   };
 
@@ -47,7 +47,7 @@ const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId
           ...meme,
           reviews: editedReviews
         })
-        setEditForm(false)
+        setShouldEditForm(false)
       }
     } catch (error) {
       console.error(`Error in fetch: ${error.message}`);
@@ -68,9 +68,9 @@ const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId
     );
   }
 
-  let shouldEditForm
-  if(editForm){
-    shouldEditForm = (
+  let editFormRender
+  if(shouldEditForm){
+    editFormRender = (
       <EditReviewForm
         rating={rating}
         content={content}
@@ -88,7 +88,7 @@ const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId
       {editButton}
       {deleteButton}
       <ErrorList errors={errors} />
-      {shouldEditForm}
+      {editFormRender}
     </>
   );
 };

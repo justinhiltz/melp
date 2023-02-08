@@ -11,14 +11,7 @@ const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId
     if (editForm) {
       setEditForm(false);
     } else {
-      setEditForm(
-        <EditReviewForm
-          rating={rating}
-          content={content}
-          id={id}
-          editReview={editReview}
-        />
-      );
+      setEditForm(true)
     }
   };
 
@@ -75,6 +68,18 @@ const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId
     );
   }
 
+  let formRender;
+  if(editForm){
+    formRender = (
+      <EditReviewForm
+        rating={rating}
+        content={content}
+        id={id}
+        editReview={editReview}
+      />
+    )
+  }
+
   return (
     <>
       <li>
@@ -83,7 +88,7 @@ const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId
       {editButton}
       {deleteButton}
       <ErrorList errors={errors} />
-      {editForm}
+      {formRender}
     </>
   );
 };

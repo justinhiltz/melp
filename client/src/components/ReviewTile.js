@@ -2,7 +2,17 @@ import React, { useState } from "react";
 import EditReviewForm from "./EditReviewForm";
 import ErrorList from "./layout/ErrorList";
 
-const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId, setMeme, meme }) => {
+const ReviewTile = ({
+  rating,
+  content,
+  onDelete,
+  id,
+  currentUser,
+  userId,
+  memeId,
+  setMeme,
+  meme,
+}) => {
   const [shouldEditForm, setShouldEditForm] = useState(false);
   const [errors, setErrors] = useState([]);
 
@@ -11,7 +21,7 @@ const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId
     if (shouldEditForm) {
       setShouldEditForm(false);
     } else {
-      setShouldEditForm(true)
+      setShouldEditForm(true);
     }
   };
 
@@ -40,53 +50,50 @@ const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId
       } else {
         const body = await response.json();
         setErrors([]);
-        const editedReviews = meme.reviews
-        const editedId = editedReviews.findIndex(review => review.id === body.review.id)
-        editedReviews[editedId] = body.review
+        const editedReviews = meme.reviews;
+        const editedId = editedReviews.findIndex((review) => review.id === body.review.id);
+        editedReviews[editedId] = body.review;
         setMeme({
           ...meme,
-          reviews: editedReviews
-        })
-        setShouldEditForm(false)
+          reviews: editedReviews,
+        });
+        setShouldEditForm(false);
       }
     } catch (error) {
       console.error(`Error in fetch: ${error.message}`);
     }
   };
 
-  let editButton;
+  let reviewControls;
   if (currentUser && currentUser.id === userId) {
-    editButton = (
-      <input type="button" className="button" value="Edit Review" onClick={handleEditButton} />
+    reviewControls = (
+      <>
+        <i
+          className="icon fa-regular fa-pen-to-square"
+          title="Edit Review"
+          onClick={handleEditButton}
+        />
+        <i
+          class="icon fa-regular fa-trash-can"
+          title="Delete Review"
+          onClick={handleDeleteButton}
+        />
+      </>
     );
   }
 
-  let deleteButton;
-  if (currentUser && currentUser.id === userId) {
-    deleteButton = (
-      <input type="button" className="button" value="Delete Review" onClick={handleDeleteButton} />
-    );
-  }
-
-  let editFormRender
-  if(shouldEditForm){
+  let editFormRender;
+  if (shouldEditForm) {
     editFormRender = (
-      <EditReviewForm
-        rating={rating}
-        content={content}
-        id={id}
-        editReview={editReview}
-      />
-    )
+      <EditReviewForm rating={rating} content={content} id={id} editReview={editReview} />
+    );
   }
 
   return (
     <>
       <li>
-        {rating}/5 stars - {content}
+        {rating}/5 stars - {content} {reviewControls}
       </li>
-      {editButton}
-      {deleteButton}
       <ErrorList errors={errors} />
       {editFormRender}
     </>

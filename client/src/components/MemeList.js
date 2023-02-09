@@ -25,7 +25,15 @@ const MemesListPage = (props) => {
   }, []);
 
   const memeTileComponents = memes.map((memeObject) => {
-    return <MemeTile key={memeObject.id} {...memeObject} />;
+    return (
+      <MemeTile
+        key={memeObject.id}
+        id={memeObject.id}
+        title={memeObject.title}
+        image={memeObject.image}
+        userId={memeObject.userId}
+      />
+    );
   });
 
   return (

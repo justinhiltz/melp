@@ -3,6 +3,5 @@ const Model = require("./Model.js");
 const User = require("./User.js");
 const Meme = require("./Meme.js");
 const Review = require("./Review.js")
-const Vote = require("./Vote.js")
 
-module.exports = { Model, User, Meme, Review, Vote };
+module.exports = { Model, User, Meme, Review };

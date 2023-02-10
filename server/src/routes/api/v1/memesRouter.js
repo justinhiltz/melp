@@ -24,7 +24,7 @@ memesRouter.get("/:id", async (req, res) => {
   try {
     const meme = await Meme.query().findById(id);
     const reviews = await meme.$relatedQuery("reviews");
-    const serializedReviews = await Promise.all(reviews.map(async (review) => await ReviewSerializer.getSummary(review)))
+    const serializedReviews = reviews.map((review) => ReviewSerializer.getSummary(review));
     meme.reviews = serializedReviews;
     return res.status(200).json({ meme: meme });
   } catch (error) {

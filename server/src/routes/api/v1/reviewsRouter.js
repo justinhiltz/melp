@@ -4,7 +4,6 @@ const { ValidationError } = objection
 import { Review } from "../../../models/index.js";
 import cleanUserInput from "../../../services/cleanUserInput.js";
 import ReviewSerializer from "../../../serializers/ReviewSerializer.js"
-import reviewsVotesRouter from "./reviewsVotesRouter.js"
 
 const reviewsRouter = new express.Router()
 
@@ -35,7 +34,5 @@ reviewsRouter.patch("/:id", async (req, res) => {
       return res.status(500).json({ errors: error });
     }
 });
-
-reviewsRouter.use("/:reviewId/votes", reviewsVotesRouter)
 
 export default reviewsRouter

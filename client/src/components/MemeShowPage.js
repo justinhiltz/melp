@@ -86,6 +86,7 @@ const MemeShowPage = (props) => {
         currentUser={currentUser}
         setMeme={setMeme}
         meme={meme}
+        voteCount={reviewObject.voteCount}
       />
     );
   });

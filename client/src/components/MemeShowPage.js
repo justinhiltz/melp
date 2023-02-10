@@ -8,7 +8,7 @@ import NewReviewForm from "./NewReviewForm";
 const MemeShowPage = (props) => {
   const [meme, setMeme] = useState({ reviews: [] });
   const [errors, setErrors] = useState([]);
-  
+
   const memeId = props.match.params.id;
   const currentUser = props.currentUser;
 

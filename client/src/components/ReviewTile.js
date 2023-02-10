@@ -53,12 +53,9 @@ const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId
         const body = await response.json();
         setErrors([]);
         const editedReviews = meme.reviews;
-        const editedId = editedReviews.findIndex((review) => review.id === body.review.id);
+        const editedId = editedReviews.findIndex(review => review.id === body.review.id);
         editedReviews[editedId] = body.review;
-        setMeme({
-          ...meme,
-          reviews: editedReviews,
-        });
+        setMeme({...meme, reviews: editedReviews});
         setShouldEditForm(false);
       }
     } catch (error) {
@@ -101,7 +98,7 @@ const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId
           onClick={handleEditButton}
         />
         <i
-          class="icon fa-regular fa-trash-can"
+          className="icon fa-regular fa-trash-can"
           title="Delete Review"
           onClick={handleDeleteButton}
         />
@@ -134,7 +131,7 @@ const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId
       <ErrorList errors={errors} />
       {editFormRender}
       {voteButtons}
-      {voteCount}
+      Votes: {voteCount}
     </>
   );
 };

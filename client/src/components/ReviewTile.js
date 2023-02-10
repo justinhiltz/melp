@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import EditReviewForm from "./EditReviewForm";
 import ErrorList from "./layout/ErrorList";
 
@@ -15,6 +15,26 @@ const ReviewTile = ({
 }) => {
   const [shouldEditForm, setShouldEditForm] = useState(false);
   const [errors, setErrors] = useState([]);
+  const [userName, setUserName] = useState("");
+
+  const getUser = async () => {
+    try {
+      const response = await fetch(`/api/v1/users/${userId}`);
+      if (!response.ok) {
+        const errorMessage = `${response.status} (${response.statusText})`;
+        const error = new Error(errorMessage);
+        throw error;
+      }
+      const parsedUser = await response.json();
+      setUserName(parsedUser.user.userName);
+    } catch (err) {
+      console.error(`Error in fetch: ${err.message}`);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   const handleEditButton = (event) => {
     event.preventDefault();
@@ -74,7 +94,7 @@ const ReviewTile = ({
           onClick={handleEditButton}
         />
         <i
-          class="icon fa-regular fa-trash-can"
+          className="icon fa-regular fa-trash-can"
           title="Delete Review"
           onClick={handleDeleteButton}
         />
@@ -89,10 +109,18 @@ const ReviewTile = ({
     );
   }
 
+  let stars = [];
+  for (let i = 0; i < 5; i++) {
+    stars.push(<i className={`rating-icon fa-${i < rating ? "solid" : "regular"} fa-star`} />);
+  }
+
   return (
     <>
       <li>
-        {rating}/5 stars - {content} {reviewControls}
+        <p className="review-header">
+          <strong>{userName}</strong> {stars} {reviewControls}
+        </p>
+        <p className="review-body">{content}</p>
       </li>
       <ErrorList errors={errors} />
       {editFormRender}

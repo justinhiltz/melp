@@ -20,7 +20,6 @@ const SignOutButton = () => {
       }
       const respBody = await response.json();
       setShouldRedirect(true);
-      return { status: "ok" };
     } catch (err) {
       console.error(`Error in fetch: ${err.message}`);
     }

@@ -2,7 +2,7 @@ import express from "express"
 import { Vote, Review } from "../../../models/index.js"
 import VoteSerializer from "../../../serializers/VoteSerializer.js"
 import objection from "objection"
-const {ValidationError} = objection
+const { ValidationError } = objection
 
 const reviewsVotesRouter = new express.Router({ mergeParams: true })
 
@@ -15,7 +15,7 @@ reviewsVotesRouter.post("/", async (req, res) => {
       const review = await Review.query().findById(body.reviewId)
       const votes = await review.$relatedQuery("votes")
       const newVoteCount = await VoteSerializer.getSummary(votes)
-      return res.status(201).json({newVoteCount: newVoteCount})
+      return res.status(201).json({ newVoteCount: newVoteCount })
     } catch (error) {
         console.log(error)
       if (error instanceof ValidationError) {

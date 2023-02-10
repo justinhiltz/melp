@@ -64,14 +64,14 @@ const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId
     }
   };
 
-  const addReviewVote = async (vote) => {
+  const addReviewVote = async (value) => {
     try {
       const response = await fetch(`/api/v1/reviews/${id}/votes`, {
         method: 'POST',
         headers: new Headers({
           "Content-Type": "application/json"
         }),
-        body: JSON.stringify( {vote: vote} )
+        body: JSON.stringify( {value: value} )
       })
       if(!response.ok){
         throw new Error(`${response.status} (${response.statusText})`)

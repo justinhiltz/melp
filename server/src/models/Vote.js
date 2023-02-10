@@ -8,11 +8,11 @@ class Vote extends Model{
     static get jsonSchema(){
         return{
             type: "object",
-            required: ["vote", "userId", "reviewId"],
+            required: ["value", "userId", "reviewId"],
             properties: {
-                vote: {type: ["string", "integer"], minimum: -1, maximum: 1},
-                userId: {type: ["string", "integer"]},
-                reviewId: {type: ["string", "integer"]}
+                value: { type: ["string", "integer"], minimum: -1, maximum: 1 },
+                userId: { type: ["string", "integer"] },
+                reviewId: { type: ["string", "integer"] }
             }
         }
     }
@@ -20,7 +20,7 @@ class Vote extends Model{
     static get relationMappings(){
         const { User, Review } = require("./index.js")
         return {
-            user:{
+            user: {
                 relation: Model.BelongsToOneRelation,
                 modelClass: User,
                 join:{
@@ -39,23 +39,18 @@ class Vote extends Model{
         }
     }
 
-    static async addVote(newVote) {
+    static async addVote(newVote){
         const voteExists = await Vote.query().findOne({userId: newVote.userId, reviewId: newVote.reviewId})
         let postedVote
         if (!voteExists) {
           postedVote = await Vote.query().insertAndFetch(newVote)
-        } else if(voteExists.vote === newVote.vote){
-            postedVote = await Vote.query().patchAndFetchById(voteExists.id, {
-                vote: 0
-              })
-        }else{
-          postedVote = await Vote.query().patchAndFetchById(voteExists.id, {
-            vote: newVote.vote
-          })
+        } else if (voteExists.value === newVote.value){
+            postedVote = await Vote.query().patchAndFetchById(voteExists.id, { value: 0 })
+        } else {
+          postedVote = await Vote.query().patchAndFetchById(voteExists.id, { value: newVote.value })
         }
         return postedVote
     }
-    
 }
 
 module.exports = Vote

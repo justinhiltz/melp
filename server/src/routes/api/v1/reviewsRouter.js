@@ -26,7 +26,7 @@ reviewsRouter.patch("/:id", async (req, res) => {
   
     try {
       const editedReview = await Review.query().patchAndFetchById(reviewId, { rating, content });
-      const serializedEditedReview = ReviewSerializer.getSummary(editedReview)
+      const serializedEditedReview = await ReviewSerializer.getSummary(editedReview)
       return res.status(200).json({ review: serializedEditedReview });
     } catch (error) {
       if (error instanceof ValidationError) {

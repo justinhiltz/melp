@@ -16,3 +16,29 @@
 .menu {
   font-weight: $global-weight-bold;
 }
+
+.card {
+  background-color: darken($orange, 10%);
+  border: 0;
+  box-shadow: 6px 8px 5px 3px rgba($black, 0.2);
+}
+
+.melp-logo {
+  color: $red-orange;
+}
+
+.icon {
+  margin: 0 0.3rem;
+  cursor: pointer;
+  color: $secondary-color;
+}
+
+.upload-box {
+  background-color: darken($orange, 10%);
+  border: 0;
+  cursor: pointer;
+}
+
+.img-preview {
+  margin: 0.75rem 0;
+}

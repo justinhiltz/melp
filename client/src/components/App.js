@@ -37,11 +37,11 @@ const App = (props) => {
         </Route>
         <Route exact path="/users/new" component={RegistrationForm} />
         <Route exact path="/user-sessions/new" component={SignInForm} />
-        <Route exact path="/memes/new" component={NewMemeForm}/>
-        <Route 
-          exact 
+        <Route exact path="/memes/new" component={NewMemeForm} />
+        <Route
+          exact
           path="/memes/:id"
-          render={(props) => <MemeShowPage {...props} currentUser={currentUser}/>}
+          render={(props) => <MemeShowPage {...props} currentUser={currentUser} />}
         />
       </Switch>
     </Router>

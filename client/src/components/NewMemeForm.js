@@ -112,19 +112,20 @@ const NewMemeForm = (props) => {
 
             <Dropzone onDrop={handleImageUpload}>
               {({ getRootProps, getInputProps }) => (
-                <section>
+                <section className="upload-box callout text-center">
                   <div {...getRootProps({})}>
                     <input {...getInputProps()} />
-                    <p>Upload Your Meme - drag 'n' drop or click here to upload</p>
+                    <p>Drag 'n' Drop or click here to upload a meme</p>
+                    <i class="icon-large fa-solid fa-cloud-arrow-up fa-10x" />
                   </div>
                 </section>
               )}
             </Dropzone>
 
-            <img src={uploadedImage.preview} />
+            <img className="img-preview" src={uploadedImage.preview} />
 
             <div className="button-group">
-              <input className="button" type="submit" value="Submit" />
+              <input className="button" type="submit" value="Add Meme" />
             </div>
           </form>
         </div>

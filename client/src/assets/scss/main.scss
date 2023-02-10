@@ -61,3 +61,23 @@ ul {
 .rating-icon {
   color: #e18f38;
 }
+
+.upvote {
+  color: #009b0d;
+}
+
+.downvote {
+  color: #f56b02;
+}
+
+.vote-count {
+  color: $secondary-color;
+  font-weight: bold;
+  margin: 0 10px;
+  display: inline-block;
+  width: 30px;
+}
+
+.title {
+  font-size: 72px;
+}

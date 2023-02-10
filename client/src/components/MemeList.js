@@ -40,7 +40,7 @@ const MemesListPage = (props) => {
     <div className="grid-container">
       <div className="grid-x grid-margin-x grid-margin-y align-center">
         <div className="cell">
-          <h1 className="text-center">Melp!</h1>
+          <h1 className="title text-center">Melp!</h1>
         </div>
         {memeTileComponents}
       </div>

@@ -2,9 +2,17 @@ import React, { useState, useEffect } from "react";
 import EditReviewForm from "./EditReviewForm";
 import ErrorList from "./layout/ErrorList";
 
-
-const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId, setMeme, meme, voteCount }) => {
-
+const ReviewTile = ({
+  rating,
+  content,
+  onDelete,
+  id,
+  currentUser,
+  userId,
+  setMeme,
+  meme,
+  voteCount = 0,
+}) => {
   const [shouldEditForm, setShouldEditForm] = useState(false);
   const [errors, setErrors] = useState([]);
   const [userName, setUserName] = useState("");
@@ -42,15 +50,15 @@ const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId
     onDelete(id);
   };
 
-  const handleUpvote = event => {
-    event.preventDefault()
-    addReviewVote(1)
-  }
+  const handleUpvote = (event) => {
+    event.preventDefault();
+    addReviewVote(1);
+  };
 
-  const handleDownvote = event => {
-    event.preventDefault()
-    addReviewVote(-1)
-  }
+  const handleDownvote = (event) => {
+    event.preventDefault();
+    addReviewVote(-1);
+  };
 
   const editReview = async (reviewId, reviewData) => {
     try {
@@ -73,9 +81,9 @@ const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId
         const body = await response.json();
         setErrors([]);
         const editedReviews = meme.reviews;
-        const editedId = editedReviews.findIndex(review => review.id === body.review.id);
+        const editedId = editedReviews.findIndex((review) => review.id === body.review.id);
         editedReviews[editedId] = body.review;
-        setMeme({...meme, reviews: editedReviews});
+        setMeme({ ...meme, reviews: editedReviews });
         setShouldEditForm(false);
       }
     } catch (error) {
@@ -83,30 +91,29 @@ const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId
     }
   };
 
-
   const addReviewVote = async (value) => {
     try {
       const response = await fetch(`/api/v1/reviews/${id}/votes`, {
-        method: 'POST',
+        method: "POST",
         headers: new Headers({
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         }),
-        body: JSON.stringify( {value: value} )
-      })
-      if(!response.ok){
-        throw new Error(`${response.status} (${response.statusText})`)
-      }else{
-        const body = await response.json()
-        const newVoteCount = body.newVoteCount
-        const editedReviews = meme.reviews
-        const editedId = editedReviews.findIndex(review => review.id === id)
-        editedReviews[editedId].voteCount = newVoteCount
-        setMeme({...meme, reviews: editedReviews})
+        body: JSON.stringify({ value: value }),
+      });
+      if (!response.ok) {
+        throw new Error(`${response.status} (${response.statusText})`);
+      } else {
+        const body = await response.json();
+        const newVoteCount = body.newVoteCount;
+        const editedReviews = meme.reviews;
+        const editedId = editedReviews.findIndex((review) => review.id === id);
+        editedReviews[editedId].voteCount = newVoteCount;
+        setMeme({ ...meme, reviews: editedReviews });
       }
     } catch (error) {
-      console.error(`Error in vote fetch: ${error.message}`)
+      console.error(`Error in vote fetch: ${error.message}`);
     }
-  }
+  };
 
   let reviewControls;
   if (currentUser && currentUser.id === userId) {
@@ -138,14 +145,19 @@ const ReviewTile = ({ rating, content, onDelete, id, currentUser, userId, memeId
     stars.push(<i className={`rating-icon fa-${i < rating ? "solid" : "regular"} fa-star`} />);
   }
 
-let voteButtons
-  if(currentUser){
+  let voteButtons;
+  if (currentUser) {
     voteButtons = (
       <>
-        <input className='button' type='button' value='Upvote' onClick={handleUpvote}/>
-        <input className='button' type='button' value='Downvote' onClick={handleDownvote}/>
+        <i className="upvote icon fa-regular fa-face-smile" title="Upvote" onClick={handleUpvote} />
+        <span className="vote-count text-center">{voteCount}</span>
+        <i
+          className="downvote icon fa-regular fa-face-frown"
+          title="Downvote"
+          onClick={handleDownvote}
+        />
       </>
-    )
+    );
   }
 
   return (
@@ -159,7 +171,6 @@ let voteButtons
       <ErrorList errors={errors} />
       {editFormRender}
       {voteButtons}
-      Votes: {voteCount}
     </>
   );
 };

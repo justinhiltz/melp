@@ -1,4 +1,4 @@
-# Melp!
+# Melp
 
 ## Description
 A web-based application that allows users to review memes.
